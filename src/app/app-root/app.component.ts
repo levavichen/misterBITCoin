@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { UserService } from '../services/user.service';
+import { ContactService } from '../services/contact.service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +9,16 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'misterBITCoin';
+
+  constructor(
+    private userService: UserService,
+    private contactService: ContactService
+  ) { }
+
+  ngOnInit() {
+    this.contactService.loadContacts()
+      .subscribe({
+        error: err => console.log('err:', err)
+      })
+  }
 }

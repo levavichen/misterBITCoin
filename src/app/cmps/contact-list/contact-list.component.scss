@@ -1,0 +1,11 @@
+.contact-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1em;
+
+    background-color: rgb(243, 188, 121);
+    :nth-child(odd) {
+        background-color: antiquewhite;
+    }
+}

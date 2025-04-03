@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, throwError, from, tap, retry, catchError } from 'rxjs';
-import { Contact } from '../models/contact.model';
-// import { Contact } from './contact.model';
+import { Observable, BehaviorSubject, throwError, from, tap, retry, catchError, take } from 'rxjs';
 import { storageService } from './async-storage.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Contact, ContactFilter } from '../models/contact.model';
 const ENTITY = 'contacts'
 
 
@@ -15,6 +14,9 @@ export class ContactService {
 
     private _contacts$ = new BehaviorSubject<Contact[]>([])
     public contacts$ = this._contacts$.asObservable()
+
+    private _filterBy$ = new BehaviorSubject<ContactFilter>({ term: '' })
+    public filterBy$ = this._filterBy$.asObservable()
 
     constructor() {
         // Handling Demo Data, fetching from storage || saving to storage 
@@ -28,11 +30,10 @@ export class ContactService {
         return from(storageService.query<Contact>(ENTITY))
             .pipe(
                 tap(contacts => {
-                    const filterBy = { term: '' }
+                    const filterBy = this._filterBy$.value
                     if (filterBy && filterBy.term) {
-                        contacts = this._filter(contacts, filterBy.term)
+                        contacts = this._filter(contacts, filterBy.term.toString())
                     }
-                    contacts = contacts.filter(contact => contact.name.toLowerCase().includes(filterBy.term.toLowerCase()))
                     this._contacts$.next(this._sort(contacts))
                 }),
                 retry(1),
@@ -40,10 +41,10 @@ export class ContactService {
             )
     }
 
-    // public getContactById(id: string): Observable<Contact> {
-    //     return from(storageService.get(ENTITY, id))
-    //         .pipe(catchError(err => throwError(() => `Contact id ${id} not found!`)))
-    // }
+    public getContactById(id: string): Observable<Contact> {
+        return from(storageService.get<Contact>(ENTITY, id))
+            .pipe(catchError(err => throwError(() => `Contact id ${id} not found!`)))
+    }
 
     public deleteContact(id: string) {
         return from(storageService.remove(ENTITY, id))
@@ -114,6 +115,11 @@ export class ContactService {
                 contact.phone.toLocaleLowerCase().includes(term) ||
                 contact.email.toLocaleLowerCase().includes(term)
         })
+    }
+
+    public setFilter(filterBy: ContactFilter) {
+        this._filterBy$.next(filterBy)
+        this.loadContacts().pipe(take(1)).subscribe()
     }
 
     private _createContacts() {
