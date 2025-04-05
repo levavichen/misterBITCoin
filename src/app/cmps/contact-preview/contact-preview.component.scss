@@ -1,8 +1,10 @@
 .contact-preview {
     display: flex;
     align-items: center;
+    border-radius: 50px;
+    border: solid 1px black;
 
     img {
-        height: 100px;
+        height: 80px;
     }
 }

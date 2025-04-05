@@ -1,8 +1,12 @@
-<section class="contact-details">
+<section *ngIf="contact$|async as contact" class="contact-details">
     <img src="https://robohash.org/{{contact._id}}" alt="contact-img">
     <div class="main-content">
         <h1>Name: {{contact.name}}</h1>
         <p>Phone: {{contact.phone}}</p>
         <p>Email: {{contact.email}}</p>
+        <div class="actions">
+            <button (click)="onBack()">Back</button>
+            <a [routerLink]="['/contact/edit', contact._id]">Edit</a>
+        </div>
     </div>
 </section>

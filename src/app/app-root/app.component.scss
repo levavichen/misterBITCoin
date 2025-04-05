@@ -1,0 +1,26 @@
+.main-app {
+    background-color: #E1EFF6;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    header {
+        background-color: #97D2FB;
+        height: 10vh;
+        flex-shrink: 0;
+    }
+
+    main {
+        flex-grow: 1;
+        overflow-y: auto;
+    }
+
+    footer {
+        display: flex;
+        align-items: center;
+
+        background-color: #97D2FB;
+        height: 10vh;
+        flex-shrink: 0;
+    }
+}

@@ -14,6 +14,8 @@ import { ContactFilterComponent } from './cmps/contact-filter/contact-filter.com
 import { provideHttpClient } from '@angular/common/http';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { FormsModule } from '@angular/forms';
+import { AppHeaderComponent } from './cmps/app-header/app-header.component';
+import { ContactEditPageComponent } from './pages/contact-edit-page/contact-edit-page.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { FormsModule } from '@angular/forms';
     ContactPreviewComponent,
     ContactListComponent,
     ChartComponent,
-    ContactFilterComponent
+    ContactFilterComponent,
+    AppHeaderComponent,
+    ContactEditPageComponent
   ],
   imports: [
     BrowserModule,

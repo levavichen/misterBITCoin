@@ -31,7 +31,7 @@ export class ContactFilterComponent implements OnInit {
           takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => {
-          console.log('Fetching pets!')
+          console.log('Fetching contacts!')
           this.contactService.setFilter(this.filterBy)
       })
   }

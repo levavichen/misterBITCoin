@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { ContactService } from '../../services/contact.service';
 import { Contact } from '../../models/contact.model';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'contact-details',
@@ -10,17 +11,19 @@ import { Subscription } from 'rxjs';
   styleUrl: './contact-details.component.scss'
 })
 export class ContactDetailsComponent implements OnInit {
+  private contactService = inject(ContactService)
+  private route = inject(ActivatedRoute)
+  private router = inject(Router)
 
-  contactId: string='5a56640252d6acddd183d319'
-  contact!: Contact
-
-  constructor(
-    private contactService: ContactService
-  ) { }
+  contact$: Observable<Contact> = this.route.params.pipe(
+    switchMap(params => this.contactService.getContactById(params['contactId']))
+  )
 
 
   ngOnInit(): void {
-    this.contactService.getContactById(this.contactId)
-      .subscribe(contact => this.contact = contact)
+  }
+
+  onBack() {
+    this.router.navigateByUrl('/contact')
   }
 }

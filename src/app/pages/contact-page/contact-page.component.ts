@@ -12,6 +12,6 @@ import { ContactService } from '../../services/contact.service';
 export class ContactPageComponent {
 
   private contactService = inject(ContactService)
-  contacts$: Observable<Contact[]> = this.contactService.contacts$
 
+  contacts$: Observable<Contact[]> = this.contactService.contacts$
 }

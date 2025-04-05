@@ -1,4 +1,8 @@
-<section class="pet-index">
+<section class="contact-page">
     <contact-filter />
-    <contact-list [contacts]="contacts$ | async" />
+    <a [routerLink]="['/contact/edit']">Add</a>
+    <contact-list 
+    [contacts]="contacts$ | async" 
+    />
 </section>
+<router-outlet></router-outlet>
